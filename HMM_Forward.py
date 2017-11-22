@@ -51,24 +51,35 @@ class Forward():
         return self.f
     def get_sum(self,i,j):
         f = self.f
-        path_sum = 0
-        for x in self.a[i]:
-            if x[0] != 0:
-                path_sum += (f[j-1][x[0]]*x[1])
-        return path_sum        
-    def implement(self):
-        f = self.f
-        e = self.e
         a = self.a
+        path_sum = 0
+        for x in a[i+1]:
+            if j != 0:
+                path_sum += (f[j-1][x[0]-1]*x[1])
+            if j == 0 and x[0] == 0:
+                path_sum += x[1]
+        return path_sum 
+    def get_emission(self,i,j):
+        e = self.e
+        seq = self.seq
+        if seq[j] == 'A':
+            return e[i+1][0]
+        elif seq[j] == 'C':
+            return e[i+1][1]
+        elif seq[j] == 'G':
+            return e[i+1][2]
+        elif seq[j] == 'T':
+            return e[i+1][3]
+    def implement(self):
         l = self.l
         seq = self.seq
         for y in range(len(seq)+1):
             for x in range(l):
-                if y == 0:
-                    continue
+                self.f[y][x] = self.get_emission(x,y)*self.get_sum(x,y)
+                    
 
 forward = Forward(seq)
 forward.implement()
-print (a)
+print (forward.get_f)
 
 
