@@ -1,6 +1,5 @@
 """
 Created on Fri Nov 17 10:46:39 2017
-/home/alex/Documents/Programming/576Bioinformatics/CollinHW/HMM_Forward.py
 @author: alex
 """
 
@@ -17,11 +16,11 @@ for x in lines:
     x = x.split()
     if int(x[1]) > l:
         l = int(x[1])
-    if x[1] in a:
-        a[x[1]].append([x[0],float(x[2])]) 
+    if int(x[1]) in a:
+        a[int(x[1])].append([int(x[0]), float(x[2])]) 
     else:
-        a[x[1]] = []
-        a[x[1]].append([x[0],float(x[2])])
+        a[int(x[1])] = []
+        a[int(x[1])].append([int(x[0]), float(x[2])])
         
 # Find the emissions file, open and extract values    
 filename = "emission2.txt"
@@ -32,11 +31,11 @@ e = {} #emission probabilities for each position
 e_nuc = ['A','C','G','T'] #nucleotides for the emission probabilities
 for x in lines:
     x= x.split()
-    if x[0] in e:
-        e[x[0]].append(float(x[2]))
+    if int(x[0]) in e:
+        e[int(x[0])].append(float(x[2]))
     else:
-        e[x[0]] = []
-        e[x[0]].append(float(x[2]))
+        e[int(x[0])] = []
+        e[int(x[0])].append(float(x[2]))
         
 seq = "TAGA"
 
@@ -50,14 +49,26 @@ class Forward():
         self.seq = seq
     def get_f(self):
         return self.f
+    def get_sum(self,i,j):
+        f = self.f
+        path_sum = 0
+        for x in self.a[i]:
+            if x[0] != 0:
+                path_sum += (f[j-1][x[0]]*x[1])
+        return path_sum        
     def implement(self):
-        print (self.seq)
-for y in range(len(seq)+1):
-    for x in range(l):
-        if y == 0:
-            continue
+        f = self.f
+        e = self.e
+        a = self.a
+        l = self.l
+        seq = self.seq
+        for y in range(len(seq)+1):
+            for x in range(l):
+                if y == 0:
+                    continue
 
 forward = Forward(seq)
 forward.implement()
+print (a)
 
 
