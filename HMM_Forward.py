@@ -41,23 +41,25 @@ seq = "TAGA"
 
 class Forward():
     def __init__(self, seq):
-        self.f = ["a"]
+        self.f = []
         self.e = e
         self.a = a
         self.e_nuc = e_nuc
         self.l = l
         self.seq = seq
     def get_f(self):
-        return self.f
+        print (self.f)
+        print ("Last state sum:" +str(self.get_sum(len(self.seq),l-1)))
+        
     def get_sum(self,i,j):
         f = self.f
         a = self.a
         path_sum = 0
         for x in a[i+1]:
-            if j != 0:
-                path_sum += (f[j-1][x[0]-1]*x[1])
             if j == 0 and x[0] == 0:
                 path_sum += x[1]
+            elif j != 0 and x[0] != 0:
+                path_sum += (f[j-1][x[0]-1]*x[1])
         return path_sum 
     def get_emission(self,i,j):
         e = self.e
@@ -73,13 +75,17 @@ class Forward():
     def implement(self):
         l = self.l
         seq = self.seq
-        for y in range(len(seq)+1):
-            for x in range(l):
-                self.f[y][x] = self.get_emission(x,y)*self.get_sum(x,y)
+        for y in range(len(seq)):
+            self.f.append([])
+            for x in range(l-1):
+                f_score = self.get_emission(x,y)*self.get_sum(x,y)
+                self.f[y].append(f_score)
+            
+                
                     
 
 forward = Forward(seq)
+print (a)
+print (e)
 forward.implement()
-print (forward.get_f)
-
-
+forward.get_f()
