@@ -48,7 +48,8 @@ class Forward():
         self.l = l # number of states
         self.seq = seq # the sequence being compared
     def get_f(self): # print results
-        print (self.f)
+        for fs in self.f:
+            print (fs)
         print ("Last state sum:" +str(self.get_sum(l-1, len(self.seq))))
         
     def get_sum(self,i,j): # find the sum of all states that leads to the probability at f given state in the previous nucleotides 
